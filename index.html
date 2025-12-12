@@ -5,107 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Solar System Explorer - Class VI</title>
 
-  <!-- 🚀 Rocket Animation -->
-<div class="rocket-container">
-  <img src="https://i.imgur.com/8b3dB6o.png" class="rocket">
-</div>
-
-<style>
-  .rocket-container {
-    position: fixed;
-    bottom: 20px;
-    left: -150px; /* start off-screen */
-    z-index: 10;
-  }
-
-  .rocket {
-    width: 120px;
-    animation: flyRocket 12s linear infinite;
-    filter: drop-shadow(0 0 10px white);
-  }
-
-  @keyframes flyRocket {
-    0% {
-      transform: translateX(0) translateY(0) rotate(10deg);
-    }
-    25% {
-      transform: translateX(40vw) translateY(-10vh) rotate(5deg);
-    }
-    50% {
-      transform: translateX(80vw) translateY(-20vh) rotate(-5deg);
-    }
-    75% {
-      transform: translateX(120vw) translateY(-30vh) rotate(-10deg);
-    }
-    100% {
-      transform: translateX(160vw) translateY(-40vh) rotate(-20deg);
-    }
-  }
-</style>
-
-  <!-- 🚀 Rocket Launch Animation -->
-<div class="launchpad">
-  <img src="https://i.imgur.com/8b3dB6o.png" id="rocketLaunch" class="rocket-launch">
-  <div class="flame" id="rocketFlame"></div>
-</div>
-
-<style>
-  .launchpad {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    z-index: 15;
-  }
-
-  .rocket-launch {
-    width: 130px;
-    cursor: pointer;
-    transition: transform 0.2s;
-    position: relative;
-    z-index: 20;
-  }
-
-  /* Flame under rocket */
-  .flame {
-    width: 20px;
-    height: 40px;
-    background: orange;
-    position: relative;
-    top: -10px;
-    left: 55px;
-    border-radius: 50% 50% 70% 70%;
-    display: none;
-    animation: flameFlicker 0.2s infinite alternate;
-    filter: blur(2px);
-    z-index: 10;
-  }
-
-  @keyframes flameFlicker {
-    from { transform: scaleY(1); opacity: 0.9; }
-    to { transform: scaleY(0.7); opacity: 0.5; }
-  }
-
-  @keyframes rocketTakeOff {
-    from { bottom: 0; }
-    to { bottom: 120vh; }
-  }
-</style>
-
-<script>
-  const rocket = document.getElementById("rocketLaunch");
-  const flame = document.getElementById("rocketFlame");
-
-  rocket.addEventListener("click", () => {
-    flame.style.display = "block";       // Show flame
-    rocket.style.animation = "rocketTakeOff 4s linear forwards";
-    setTimeout(() => {
-      flame.style.display = "none";      // Hide flame after takeoff
-    }, 3500);
-  });
-</script>
-  
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -114,18 +13,22 @@
       background: black;
       color: white;
       overflow-x: hidden;
+      position: relative;
     }
 
-    /* STAR BACKGROUND ANIMATION */
+    /* ⭐ STAR BACKGROUND */
     body::before {
       content: "";
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: url('https://i.imgur.com/9aK0r2B.png') repeat;
-      animation: moveStars 60s linear infinite;
-      z-index: -1;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("https://i.imgur.com/9aK0r2B.png") repeat;
+      background-size: cover;
       opacity: 0.4;
+      z-index: -1;
+      animation: moveStars 60s linear infinite;
     }
 
     @keyframes moveStars {
@@ -138,6 +41,7 @@
       color: #66ccff;
     }
 
+    /* PLANET CARDS */
     .planet-list, .dwarf-list {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -151,7 +55,7 @@
       border-radius: 12px;
       text-align: center;
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: transform 0.3s;
       backdrop-filter: blur(3px);
     }
 
@@ -164,11 +68,6 @@
       width: 70px;
       height: 70px;
       animation: revolve 6s linear infinite;
-    }
-
-    .dwarf img {
-      width: 60px;
-      height: 60px;
     }
 
     @keyframes revolve {
@@ -185,92 +84,123 @@
       backdrop-filter: blur(4px);
     }
 
-    h2 {
-      color: #99ddff;
+    h2 { color: #99ddff; }
+
+    /* 🚀 Continuous Flying Rocket */
+    .rocket-container {
+      position: fixed;
+      bottom: 20px;
+      left: -150px;
+      z-index: 10;
+    }
+    .rocket {
+      width: 120px;
+      animation: flyRocket 12s linear infinite;
+      filter: drop-shadow(0 0 10px white);
+    }
+    @keyframes flyRocket {
+      0%   { transform: translateX(0) translateY(0) rotate(10deg); }
+      25%  { transform: translateX(40vw) translateY(-10vh) rotate(5deg); }
+      50%  { transform: translateX(80vw) translateY(-20vh) rotate(-5deg); }
+      75%  { transform: translateX(120vw) translateY(-30vh) rotate(-10deg); }
+      100% { transform: translateX(160vw) translateY(-40vh) rotate(-20deg); }
     }
 
-    audio {
-      display: none;
+    /* 🚀 Click-to-Launch Rocket */
+    .launchpad {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 20;
     }
+
+    .rocket-launch {
+      width: 130px;
+      cursor: pointer;
+      position: relative;
+      z-index: 30;
+    }
+
+    .flame {
+      width: 20px;
+      height: 40px;
+      background: orange;
+      position: relative;
+      top: -10px;
+      left: 55px;
+      border-radius: 50% 50% 70% 70%;
+      display: none;
+      animation: flameFlicker 0.2s infinite alternate;
+      filter: blur(2px);
+      z-index: 10;
+    }
+
+    @keyframes flameFlicker {
+      from { transform: scaleY(1); opacity: 0.9; }
+      to { transform: scaleY(0.6); opacity: 0.5; }
+    }
+
+    @keyframes rocketTakeOff {
+      from { bottom: 0; }
+      to { bottom: 120vh; }
+    }
+
+    audio { display: none; }
   </style>
 </head>
 
 <body>
+
+  <!-- 🎵 Background Music -->
   <audio autoplay loop muted>
     <source src="https://www.fesliyanstudios.com/play-mp3/387" type="audio/mp3">
   </audio>
+
+  <!-- 🚀 Flying Rocket -->
+  <div class="rocket-container">
+    <img src="https://i.imgur.com/8b3dB6o.png" class="rocket">
+  </div>
+
+  <!-- 🚀 Click & Launch Rocket -->
+  <div class="launchpad">
+    <img src="https://i.imgur.com/8b3dB6o.png" id="rocketLaunch" class="rocket-launch">
+    <div class="flame" id="rocketFlame"></div>
+  </div>
 
   <h1>Solar System Explorer</h1>
   <h3>(Class VI School Project)</h3>
 
   <h2>Planets</h2>
   <div class="planet-list">
-    <div class="planet" onclick="showDetails('Mercury', 'Smallest planet, closest to the Sun.')">
+    <div class="planet" onclick="showDetails('Mercury','Smallest planet, closest to the Sun.')">
       <img src="https://i.imgur.com/RlZt2Zt.png"><br>Mercury
     </div>
-    <div class="planet" onclick="showDetails('Venus', 'Hottest planet with thick clouds.')">
+    <div class="planet" onclick="showDetails('Venus','Hottest planet with thick clouds.')">
       <img src="https://i.imgur.com/lUQKxqH.png"><br>Venus
     </div>
-    <div class="planet" onclick="showDetails('Earth', 'Our home planet with life.')">
+    <div class="planet" onclick="showDetails('Earth','Our home planet with life.')">
       <img src="https://i.imgur.com/Yg1rK7e.png"><br>Earth
     </div>
-    <div class="planet" onclick="showDetails('Mars', 'The red planet, possible signs of water.')">
+    <div class="planet" onclick="showDetails('Mars','The red planet.')">
       <img src="https://i.imgur.com/dwT5vVF.png"><br>Mars
     </div>
-    <div class="planet" onclick="showDetails('Jupiter', 'Largest planet with a giant storm.')">
+    <div class="planet" onclick="showDetails('Jupiter','Largest planet with a giant storm.')">
       <img src="https://i.imgur.com/5GHeS6c.png"><br>Jupiter
     </div>
-    <div class="planet" onclick="showDetails('Saturn', 'Famous for its beautiful rings.')">
+    <div class="planet" onclick="showDetails('Saturn','Famous for its rings.')">
       <img src="https://i.imgur.com/QlT0fSg.png"><br>Saturn
     </div>
-    <div class="planet" onclick="showDetails('Uranus', 'An icy planet that rotates on its side.')">
+    <div class="planet" onclick="showDetails('Uranus','An icy planet that rotates on its side.')">
       <img src="https://i.imgur.com/lslN5nO.png"><br>Uranus
     </div>
-    <div class="planet" onclick="showDetails('Neptune', 'Farthest planet, very windy.')">
+    <div class="planet" onclick="showDetails('Neptune','Very windy and farthest planet.')">
       <img src="https://i.imgur.com/vim9cuT.png"><br>Neptune
     </div>
   </div>
 
   <h2>Dwarf Planets</h2>
   <div class="dwarf-list">
-    <div class="dwarf" onclick="showDetails('Pluto', 'A famous dwarf planet in the Kuiper Belt.')">
-      ⭐ Pluto
-    </div>
-    <div class="dwarf" onclick="showDetails('Eris', 'One of the largest dwarf planets.')">
-      ⭐ Eris
-    </div>
-    <div class="dwarf" onclick="showDetails('Haumea', 'Has a very unusual oval shape.')">
-      ⭐ Haumea
-    </div>
-    <div class="dwarf" onclick="showDetails('Makemake', 'A bright Kuiper Belt object.')">
-      ⭐ Makemake
-    </div>
-  </div>
-
-  <h2>The Moon</h2>
-  <div class="planet-list">
-    <div class="planet" onclick="showDetails('Moon', 'Earth’s natural satellite. Controls tides, has phases, and astronauts have visited it.')">
-      <img src="https://i.imgur.com/0eRLaqE.png"><br>Moon
-    </div>
-  </div>
-
-  <h2>Fun Facts</h2>
-  <div class="planet-list">
-    <div class="planet" onclick="showDetails('Fact', 'Sunlight takes 8 minutes to reach Earth!')">☀️ Sunlight Fact</div>
-    <div class="planet" onclick="showDetails('Fact', 'Jupiter is so big that over 1,300 Earths can fit inside it!')">🪐 Jupiter Fact</div>
-    <div class="planet" onclick="showDetails('Fact', 'Mars has the tallest volcano in the solar system!')">🔥 Mars Fact</div>
-    <div class="planet" onclick="showDetails('Fact', 'Neptune has the fastest winds, up to 2,100 km/h!')">💨 Neptune Fact</div>
-  </div>
-
-  <div id="details"></div>
-
-  <script>
-    function showDetails(name, info) {
-      const details = document.getElementById('details');
-      details.style.display = 'block';
-      details.innerHTML = `<h2>${name}</h2><p>${info}</p>`;
-    }
-  </script>
-
-</body>
-</html>
+    <div class="dwarf" onclick="showDetails('Pluto','A famous dwarf planet.')">⭐ Pluto</div>
+    <div class="dwarf" onclick="showDetails('Eris','O
