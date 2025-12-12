@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta-name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Plant Identifier App - Class VI</title>
   <style>
     body {
@@ -72,12 +72,32 @@
 <div class="leaf-passport" id="leafPassport"></div>
 
 <script>
-  // Plant Data
+  // WORKING IMAGE URLs
   const plants = [
-    {name: "Rose", habitat: "Garden/Indoor", leaf: "Compound leaves", img: "https://i.imgur.com/rose.jpg"},
-    {name: "Mango", habitat: "Tropical regions", leaf: "Simple leaves", img: "https://i.imgur.com/mango.jpg"},
-    {name: "Sunflower", habitat: "Fields", leaf: "Simple broad leaves", img: "https://i.imgur.com/sunflower.jpg"},
-    {name: "Tulip", habitat: "Garden", leaf: "Long narrow leaves", img: "https://i.imgur.com/tulip.jpg"}
+    {
+      name: "Rose",
+      habitat: "Garden/Indoor",
+      leaf: "Compound leaves",
+      img: "https://upload.wikimedia.org/wikipedia/commons/b/bf/Red_rose.jpg"
+    },
+    {
+      name: "Mango",
+      habitat: "Tropical regions",
+      leaf: "Simple leaves",
+      img: "https://upload.wikimedia.org/wikipedia/commons/7/7d/Mango_fruit.jpg"
+    },
+    {
+      name: "Sunflower",
+      habitat: "Fields",
+      leaf: "Simple broad leaves",
+      img: "https://upload.wikimedia.org/wikipedia/commons/4/40/Sunflower_sky_backdrop.jpg"
+    },
+    {
+      name: "Tulip",
+      habitat: "Garden",
+      leaf: "Long narrow leaves",
+      img: "https://upload.wikimedia.org/wikipedia/commons/1/12/Red_tulip_flower.jpg"
+    }
   ];
 
   const plantListDiv = document.getElementById("plantList");
@@ -110,7 +130,10 @@
     const plant = plants[index];
     const card = document.createElement("div");
     card.className = "leaf-card";
-    card.innerHTML = `<img src="${plant.img}" alt="${plant.name}"><br>${plant.name}<br>${plant.leaf}`;
+    card.innerHTML = `
+      <img src="${plant.img}" alt="${plant.name}">
+      <br>${plant.name}<br>${plant.leaf}
+    `;
     leafPassportDiv.appendChild(card);
     alert(`${plant.name} added to Leaf Passport!`);
   }
