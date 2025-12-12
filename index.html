@@ -208,12 +208,24 @@
     <div class="dwarf" onclick="showDetails('Makemake','A bright object in Kuiper Belt.')">⭐ Makemake</div>
   </div>
 
-  <h2>The Moon</h2>
-  <div class="planet-list">
-    <div class="planet" onclick="showDetails('Moon','Earth’s natural satellite.')">
-      <img src="https://i.imgur.com/0eRLaqE.png"><br>Moon
-    </div>
+  <h2>The Moon & Satellite</h2>
+<div class="planet-list" style="position: relative; width: 300px; height: 300px; margin: auto;">
+  <!-- Earth -->
+  <div class="planet" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+    <img src="https://i.imgur.com/Yg1rK7e.png" style="width: 80px; height: 80px; animation: revolve 6s linear infinite;"><br>Earth
   </div>
+
+  <!-- Moon orbiting Earth -->
+  <div class="moon-orbit">
+    <img src="https://i.imgur.com/0eRLaqE.png" class="moon" alt="Moon">
+  </div>
+
+  <!-- Satellite rotating -->
+  <div class="sat-orbit">
+    <img src="https://i.imgur.com/0LxE6V8.png" class="satellite" alt="Satellite">
+  </div>
+</div>
+
 
   <h2>Fun Facts</h2>
   <div class="planet-list">
