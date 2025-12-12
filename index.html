@@ -5,10 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Solar System Explorer - Class VI</title>
 
-  <style>
-   
+ <!-- 🚀 Rocket Animation -->
+<div class="rocket-container">
+  <img src="https://i.imgur.com/8b3dB6o.png" class="rocket">
+</div>
 
-    body {
+<style>
+  .rocket-container {
+    position: fixed;
+    bottom: 20px;
+    left: -150px; /* start off-screen */
+    z-index: 10;
+  }
+
+  .rocket {
+    width: 120px;
+    animation: flyRocket 12s linear infinite;
+    filter: drop-shadow(0 0 10px white);
+  }
+
+  @keyframes flyRocket {
+    0% {
+      transform: translateX(0) translateY(0) rotate(10deg);
+    }
+    25% {
+      transform: translateX(40vw) translateY(-10vh) rotate(5deg);
+    }
+    50% {
+      transform: translateX(80vw) translateY(-20vh) rotate(-5deg);
+    }
+    75% {
+      transform: translateX(120vw) translateY(-30vh) rotate(-10deg);
+    }
+    100% {
+      transform: translateX(160vw) translateY(-40vh) rotate(-20deg);
+    }
+  }
+</style>
+  
+  <style>
+       body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 20px;
