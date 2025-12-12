@@ -203,4 +203,48 @@
   <h2>Dwarf Planets</h2>
   <div class="dwarf-list">
     <div class="dwarf" onclick="showDetails('Pluto','A famous dwarf planet.')">⭐ Pluto</div>
-    <div class="dwarf" onclick="showDetails('Eris','O
+    <div class="dwarf" onclick="showDetails('Eris','One of the largest dwarf planets.')">⭐ Eris</div>
+    <div class="dwarf" onclick="showDetails('Haumea','Has an oval shape.')">⭐ Haumea</div>
+    <div class="dwarf" onclick="showDetails('Makemake','A bright object in Kuiper Belt.')">⭐ Makemake</div>
+  </div>
+
+  <h2>The Moon</h2>
+  <div class="planet-list">
+    <div class="planet" onclick="showDetails('Moon','Earth’s natural satellite.')">
+      <img src="https://i.imgur.com/0eRLaqE.png"><br>Moon
+    </div>
+  </div>
+
+  <h2>Fun Facts</h2>
+  <div class="planet-list">
+    <div class="planet" onclick="showDetails('Fact','Sunlight takes 8 minutes to reach Earth!')">☀️ Sunlight Fact</div>
+    <div class="planet" onclick="showDetails('Fact','Jupiter can fit 1,300 Earths!')">🪐 Jupiter Fact</div>
+    <div class="planet" onclick="showDetails('Fact','Mars has the tallest volcano!')">🔥 Mars Fact</div>
+    <div class="planet" onclick="showDetails('Fact','Neptune has extreme winds!')">💨 Neptune Fact</div>
+  </div>
+
+  <div id="details"></div>
+
+  <!-- JS -->
+  <script>
+    function showDetails(name, info) {
+      const details = document.getElementById("details");
+      details.style.display = "block";
+      details.innerHTML = `<h2>${name}</h2><p>${info}</p>`;
+    }
+
+    /* Rocket Launch */
+    const rocket = document.getElementById("rocketLaunch");
+    const flame = document.getElementById("rocketFlame");
+
+    rocket.addEventListener("click", () => {
+      flame.style.display = "block";
+      rocket.style.animation = "rocketTakeOff 4s linear forwards";
+      setTimeout(() => {
+        flame.style.display = "none";
+      }, 3500);
+    });
+  </script>
+
+</body>
+</html>
