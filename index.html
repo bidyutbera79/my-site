@@ -1,156 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Solar System Explorer - Class VI</title>
-<style>
-body {
-  margin:0; padding:0; background:black; color:white; font-family:Arial,sans-serif; overflow-x:hidden; position:relative;
-}
-/* ⭐ STAR BACKGROUND */
-body::before {
-  content:""; position:fixed; top:0; left:0; width:100%; height:100%;
-  background:url('https://i.imgur.com/9aK0r2B.png') repeat; opacity:0.3; z-index:-1;
-  animation:moveStars 60s linear infinite;
-}
-@keyframes moveStars { from{background-position:0 0;} to{background-position:-2000px 2000px;} }
-
-h1,h3 {text-align:center; color:#66ccff;}
-
-/* SUN AND PLANET ORBITS */
-.orbit-solar { position:relative; width:600px; height:600px; margin:30px auto; }
-.sun { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:80px; height:80px; border-radius:50%; background:yellow; display:flex; justify-content:center; align-items:center; font-weight:bold; color:black; }
-
-.orbit { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); border-radius:50%; border:1px dotted rgba(255,255,255,0.2); }
-
-.planet-orbit { position:absolute; top:0; left:50%; transform:translateX(-50%); border-radius:50%; }
-
-.planet-orbit img { width:40px; height:40px; border-radius:50%; cursor:pointer; }
-
-/* ORBIT ANIMATION */
-@keyframes rotateOrbit { from{transform:translate(-50%,-50%) rotate(0deg);} to{transform:translate(-50%,-50%) rotate(360deg);} }
-
-/* ROCKET */
-.rocket-container { position:fixed; bottom:20px; left:-150px; z-index:10; }
-.rocket { width:120px; animation:flyRocket 12s linear infinite; filter:drop-shadow(0 0 10px white);}
-@keyframes flyRocket { 0%{transform:translateX(0) translateY(0) rotate(10deg);} 25%{transform:translateX(40vw) translateY(-10vh) rotate(5deg);} 50%{transform:translateX(80vw) translateY(-20vh) rotate(-5deg);} 75%{transform:translateX(120vw) translateY(-30vh) rotate(-10deg);} 100%{transform:translateX(160vw) translateY(-40vh) rotate(-20deg);} }
-.launchpad { position:fixed; bottom:0; left:50%; transform:translateX(-50%); text-align:center; z-index:20; }
-.rocket-launch { width:130px; cursor:pointer; position:relative; z-index:30; transition:0.2s; }
-.flame { width:20px; height:40px; background:orange; position:relative; top:-10px; left:55px; border-radius:50% 50% 70% 70%; display:none; animation:flameFlicker 0.2s infinite alternate; filter:blur(2px); z-index:10;}
-@keyframes flameFlicker { from{transform:scaleY(1); opacity:0.9;} to{transform:scaleY(0.6); opacity:0.5;} }
-@keyframes rocketTakeOff { from{bottom:0;} to{bottom:120vh;} }
-
-/* DETAILS BOX */
-#details { margin:20px; padding:15px; background:rgba(255,255,255,0.1); display:none; border-radius:10px; }
-
-audio { display:none; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solar System Explorer - Class VI</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- 🎵 Background Music -->
-<audio autoplay loop>
-  <source src="https://www.fesliyanstudios.com/play-mp3/387" type="audio/mp3">
-</audio>
+  <!-- 🎵 Background Music -->
+  <audio autoplay loop>
+    <source src="https://www.fesliyanstudios.com/play-mp3/387" type="audio/mp3">
+  </audio>
 
-<!-- 🚀 Flying Rocket -->
-<div class="rocket-container">
-  <img src="https://i.imgur.com/8b3dB6o.png" class="rocket">
-</div>
-
-<!-- 🚀 Click & Launch Rocket -->
-<div class="launchpad">
-  <img src="https://i.imgur.com/8b3dB6o.png" id="rocketLaunch" class="rocket-launch">
-  <div class="flame" id="rocketFlame"></div>
-</div>
-
-<h1>Solar System Explorer</h1>
-<h3>(Class VI Project)</h3>
-
-<div class="orbit-solar">
-  <div class="sun">☀️ Sun</div>
-
-  <!-- Mercury -->
-  <div class="orbit" style="width:100px; height:100px; animation:rotateOrbit 4s linear infinite;">
-    <div class="planet-orbit">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg" onclick="showDetails('Mercury','Smallest planet, closest to the Sun.')">
-    </div>
-  </div>
-  
-  <!-- Venus -->
-  <div class="orbit" style="width:140px; height:140px; animation:rotateOrbit 7s linear infinite;">
-    <div class="planet-orbit">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Venus-real_color.jpg" onclick="showDetails('Venus','Hottest planet with thick clouds.')">
-    </div>
+  <!-- 🚀 Flying Rocket -->
+  <div class="rocket-container">
+    <img src="https://i.imgur.com/8b3dB6o.png" class="rocket">
   </div>
 
-  <!-- Earth + Moon -->
-  <div class="orbit" style="width:180px; height:180px; animation:rotateOrbit 10s linear infinite;">
-    <div class="planet-orbit" style="position:relative;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg" onclick="showDetails('Earth','Our home planet with life.')">
+  <!-- 🚀 Click & Launch Rocket -->
+  <div class="launchpad">
+    <img src="https://i.imgur.com/8b3dB6o.png" id="rocketLaunch" class="rocket-launch">
+    <div class="flame" id="rocketFlame"></div>
+  </div>
 
-      <!-- Moon Orbit -->
-      <div class="orbit" style="width:50px; height:50px; animation:rotateOrbit 3s linear infinite; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
-        <div class="planet-orbit">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/FullMoon2010.jpg" onclick="showDetails('Moon','Earth’s natural satellite.')">
+  <h1>Solar System Explorer</h1>
+  <h3>(Class VI School Project)</h3>
+
+  <div class="orbit-solar">
+    <div class="sun">☀️ Sun</div>
+
+    <!-- Mercury -->
+    <div class="orbit" style="width:100px; height:100px; animation-duration:4s;">
+      <div class="planet-orbit">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg" onclick="showDetails('Mercury','Smallest planet, closest to the Sun.')">
+      </div>
+    </div>
+
+    <!-- Venus -->
+    <div class="orbit" style="width:140px; height:140px; animation-duration:7s;">
+      <div class="planet-orbit">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Venus-real_color.jpg" onclick="showDetails('Venus','Hottest planet with thick clouds.')">
+      </div>
+    </div>
+
+    <!-- Earth + Moon -->
+    <div class="orbit" style="width:180px; height:180px; animation-duration:10s;">
+      <div class="planet-orbit">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg" onclick="showDetails('Earth','Our home planet with life.')">
+
+        <!-- Moon Orbit -->
+        <div class="orbit moon-orbit" style="width:50px; height:50px; animation-duration:3s;">
+          <div class="planet-orbit">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/FullMoon2010.jpg" onclick="showDetails('Moon','Earth’s natural satellite.')">
+          </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Mars -->
+    <div class="orbit" style="width:220px; height:220px; animation-duration:12s;">
+      <div class="planet-orbit">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg" onclick="showDetails('Mars','The red planet.')">
+      </div>
+    </div>
+
+    <!-- Jupiter -->
+    <div class="orbit" style="width:280px; height:280px; animation-duration:16s;">
+      <div class="planet-orbit">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Jupiter.jpg" onclick="showDetails('Jupiter','Largest planet with a giant storm.')">
+      </div>
+    </div>
+
+    <!-- Saturn -->
+    <div class="orbit" style="width:340px; height:340px; animation-duration:20s;">
+      <div class="planet-orbit">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg" onclick="showDetails('Saturn','Famous for its rings.')">
+      </div>
+    </div>
+
+    <!-- Uranus -->
+    <div class="orbit" style="width:400px; height:400px; animation-duration:24s;">
+      <div class="planet-orbit">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Uranus2.jpg" onclick="showDetails('Uranus','An icy planet.')">
+      </div>
+    </div>
+
+    <!-- Neptune -->
+    <div class="orbit" style="width:460px; height:460px; animation-duration:28s;">
+      <div class="planet-orbit">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/56/Neptune_Full.jpg" onclick="showDetails('Neptune','Farthest planet.')">
       </div>
     </div>
   </div>
 
-  <!-- Mars -->
-  <div class="orbit" style="width:220px; height:220px; animation:rotateOrbit 12s linear infinite;">
-    <div class="planet-orbit">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg" onclick="showDetails('Mars','The red planet.')">
-    </div>
-  </div>
+  <div id="details"></div>
 
-  <!-- Jupiter -->
-  <div class="orbit" style="width:280px; height:280px; animation:rotateOrbit 16s linear infinite;">
-    <div class="planet-orbit">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Jupiter.jpg" onclick="showDetails('Jupiter','Largest planet with a giant storm.')">
-    </div>
-  </div>
-
-  <!-- Saturn -->
-  <div class="orbit" style="width:340px; height:340px; animation:rotateOrbit 20s linear infinite;">
-    <div class="planet-orbit">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg" onclick="showDetails('Saturn','Famous for its rings.')">
-    </div>
-  </div>
-
-  <!-- Uranus -->
-  <div class="orbit" style="width:400px; height:400px; animation:rotateOrbit 24s linear infinite;">
-    <div class="planet-orbit">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Uranus2.jpg" onclick="showDetails('Uranus','An icy planet.')">
-    </div>
-  </div>
-
-  <!-- Neptune -->
-  <div class="orbit" style="width:460px; height:460px; animation:rotateOrbit 28s linear infinite;">
-    <div class="planet-orbit">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/5/56/Neptune_Full.jpg" onclick="showDetails('Neptune','Farthest planet.')">
-    </div>
-  </div>
-</div>
-
-<div id="details"></div>
-
-<script>
-function showDetails(name,info){
-  const d=document.getElementById('details');
-  d.style.display='block';
-  d.innerHTML='<h2>'+name+'</h2><p>'+info+'</p>';
-}
-
-const rocket = document.getElementById("rocketLaunch");
-const flame = document.getElementById("rocketFlame");
-rocket.addEventListener("click",()=>{
-  flame.style.display="block";
-  rocket.style.animation="rocketTakeOff 4s linear forwards";
-  setTimeout(()=>{ flame.style.display="none"; },3500);
-});
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
