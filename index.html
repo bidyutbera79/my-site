@@ -8,227 +8,166 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f0f8ff;
       margin: 0;
       padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      color: #003366;
-    }
-    h2 {
-      color: #003366;
-      margin-top: 40px;
-      text-align: center;
+      background: black;
+      color: white;
+      overflow-x: hidden;
     }
 
-    /* 🌞 ANIMATION SECTION */
-    .solar-system {
-      width: 400px;
-      height: 400px;
-      margin: 30px auto;
-      position: relative;
+    /* STAR BACKGROUND ANIMATION */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: url('https://i.imgur.com/9aK0r2B.png') repeat;
+      animation: moveStars 60s linear infinite;
+      z-index: -1;
+      opacity: 0.4;
     }
-    .orbit {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      border: 1px dashed #888;
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-    }
-    .planet-anim {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      position: absolute;
-      top: 50%;
-      left: -15px;
-      transform: translateY(-50%);
-      animation: revolve 10s linear infinite;
-    }
-    .mercury { background: gray; animation-duration: 6s; }
-    .venus { background: #d6b26a; animation-duration: 10s; }
-    .earth { background: #3f88ff; animation-duration: 14s; }
-    .mars { background: #d35400; animation-duration: 18s; }
 
-    .sun {
+    @keyframes moveStars {
+      from { background-position: 0 0; }
+      to { background-position: -2000px 2000px; }
+    }
+
+    h1, h3 {
+      text-align: center;
+      color: #66ccff;
+    }
+
+    .planet-list, .dwarf-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .planet, .dwarf {
+      background: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+      backdrop-filter: blur(3px);
+    }
+
+    .planet:hover, .dwarf:hover {
+      transform: scale(1.05);
+      background: rgba(255,255,255,0.2);
+    }
+
+    .planet img {
       width: 70px;
       height: 70px;
-      background: gold;
-      border-radius: 50%;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      box-shadow: 0 0 20px orange;
+      animation: revolve 6s linear infinite;
+    }
+
+    .dwarf img {
+      width: 60px;
+      height: 60px;
     }
 
     @keyframes revolve {
-      from { transform: rotate(0deg) translateX(160px) rotate(0deg); }
-      to { transform: rotate(360deg) translateX(160px) rotate(-360deg); }
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
-    /* PLANETS SECTION */
-    .planet-list, .dwarf-list, .moon-list, .facts-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
-    }
-    .card {
-      background: white;
-      padding: 15px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-    .clickable { cursor: pointer; transition: 0.2s; }
-    .clickable:hover { transform: scale(1.05); }
-    .card img {
-      width: 100%;
-      height: 120px;
-      object-fit: contain;
-      margin-bottom: 10px;
-    }
     #details {
       margin-top: 30px;
       padding: 20px;
-      background: white;
+      background: rgba(255,255,255,0.1);
       border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      display: none;
+      backdrop-filter: blur(4px);
+    }
+
+    h2 {
+      color: #99ddff;
+    }
+
+    audio {
       display: none;
     }
-    ul { padding-left: 20px; }
   </style>
 </head>
 
 <body>
+  <audio autoplay loop muted>
+    <source src="https://www.fesliyanstudios.com/play-mp3/387" type="audio/mp3">
+  </audio>
 
   <h1>Solar System Explorer</h1>
-  <h3 style="text-align:center;">(Class VI School Project)</h3>
+  <h3>(Class VI School Project)</h3>
 
-  <!-- 🌞 ANIMATED SOLAR SYSTEM -->
-  <h2>Animated Solar System</h2>
-  <div class="solar-system">
-    <div class="sun"></div>
-
-    <div class="orbit" style="width:160px; height:160px;">
-      <div class="planet-anim mercury"></div>
+  <h2>Planets</h2>
+  <div class="planet-list">
+    <div class="planet" onclick="showDetails('Mercury', 'Smallest planet, closest to the Sun.')">
+      <img src="https://i.imgur.com/RlZt2Zt.png"><br>Mercury
     </div>
-
-    <div class="orbit" style="width:220px; height:220px;">
-      <div class="planet-anim venus"></div>
+    <div class="planet" onclick="showDetails('Venus', 'Hottest planet with thick clouds.')">
+      <img src="https://i.imgur.com/lUQKxqH.png"><br>Venus
     </div>
-
-    <div class="orbit" style="width:280px; height:280px;">
-      <div class="planet-anim earth"></div>
+    <div class="planet" onclick="showDetails('Earth', 'Our home planet with life.')">
+      <img src="https://i.imgur.com/Yg1rK7e.png"><br>Earth
     </div>
-
-    <div class="orbit" style="width:340px; height:340px;">
-      <div class="planet-anim mars"></div>
+    <div class="planet" onclick="showDetails('Mars', 'The red planet, possible signs of water.')">
+      <img src="https://i.imgur.com/dwT5vVF.png"><br>Mars
+    </div>
+    <div class="planet" onclick="showDetails('Jupiter', 'Largest planet with a giant storm.')">
+      <img src="https://i.imgur.com/5GHeS6c.png"><br>Jupiter
+    </div>
+    <div class="planet" onclick="showDetails('Saturn', 'Famous for its beautiful rings.')">
+      <img src="https://i.imgur.com/QlT0fSg.png"><br>Saturn
+    </div>
+    <div class="planet" onclick="showDetails('Uranus', 'An icy planet that rotates on its side.')">
+      <img src="https://i.imgur.com/lslN5nO.png"><br>Uranus
+    </div>
+    <div class="planet" onclick="showDetails('Neptune', 'Farthest planet, very windy.')">
+      <img src="https://i.imgur.com/vim9cuT.png"><br>Neptune
     </div>
   </div>
 
-  <!-- 🌍 PLANETS SECTION -->
-  <h2>Planets</h2>
+  <h2>Dwarf Planets</h2>
+  <div class="dwarf-list">
+    <div class="dwarf" onclick="showDetails('Pluto', 'A famous dwarf planet in the Kuiper Belt.')">
+      ⭐ Pluto
+    </div>
+    <div class="dwarf" onclick="showDetails('Eris', 'One of the largest dwarf planets.')">
+      ⭐ Eris
+    </div>
+    <div class="dwarf" onclick="showDetails('Haumea', 'Has a very unusual oval shape.')">
+      ⭐ Haumea
+    </div>
+    <div class="dwarf" onclick="showDetails('Makemake', 'A bright Kuiper Belt object.')">
+      ⭐ Makemake
+    </div>
+  </div>
 
+  <h2>The Moon</h2>
   <div class="planet-list">
-
-    <div class="card clickable" onclick="showDetails('Mercury','Smallest planet and closest to the Sun.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg">
-      Mercury
+    <div class="planet" onclick="showDetails('Moon', 'Earth’s natural satellite. Controls tides, has phases, and astronauts have visited it.')">
+      <img src="https://i.imgur.com/0eRLaqE.png"><br>Moon
     </div>
+  </div>
 
-    <div class="card clickable" onclick="showDetails('Venus','Hottest planet with thick yellow clouds.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Venus-real_color.jpg">
-      Venus
-    </div>
-
-    <div class="card clickable" onclick="showDetails('Earth','Our home planet with air and water.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg">
-      Earth
-    </div>
-
-    <div class="card clickable" onclick="showDetails('Mars','Known as the Red Planet.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg">
-      Mars
-    </div>
-
-    <div class="card clickable" onclick="showDetails('Jupiter','Largest planet with a giant storm.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Jupiter.jpg">
-      Jupiter
-    </div>
-
-    <div class="card clickable" onclick="showDetails('Saturn','Famous for its beautiful rings.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg">
-      Saturn
-    </div>
-
-    <div class="card clickable" onclick="showDetails('Uranus','An icy blue planet that spins on its side.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Uranus2.jpg">
-      Uranus
-    </div>
-
-    <div class="card clickable" onclick="showDetails('Neptune','Dark blue planet with strong winds.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/5/56/Neptune_Full.jpg">
-      Neptune
-    </div>
-
+  <h2>Fun Facts</h2>
+  <div class="planet-list">
+    <div class="planet" onclick="showDetails('Fact', 'Sunlight takes 8 minutes to reach Earth!')">☀️ Sunlight Fact</div>
+    <div class="planet" onclick="showDetails('Fact', 'Jupiter is so big that over 1,300 Earths can fit inside it!')">🪐 Jupiter Fact</div>
+    <div class="planet" onclick="showDetails('Fact', 'Mars has the tallest volcano in the solar system!')">🔥 Mars Fact</div>
+    <div class="planet" onclick="showDetails('Fact', 'Neptune has the fastest winds, up to 2,100 km/h!')">💨 Neptune Fact</div>
   </div>
 
   <div id="details"></div>
 
-  <!-- 🌕 MOON -->
-  <h2>Earth’s Moon</h2>
-  <div class="moon-list">
-    <div class="card clickable" onclick="showDetails('Moon','Earth’s only natural satellite.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/FullMoon2010.jpg">
-      The Moon
-    </div>
-  </div>
-
-  <!-- 🪐 DWARF PLANETS -->
-  <h2>Dwarf Planets</h2>
-  <div class="dwarf-list">
-
-    <div class="card clickable" onclick="showDetails('Pluto','Heart-shaped glacier, once 9th planet.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Nh-pluto-in-true-color_2x_JPEG-edit-frame.jpg">
-      Pluto
-    </div>
-
-    <div class="card clickable" onclick="showDetails('Ceres','Located in asteroid belt, visited by Dawn spacecraft.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Ceres_optimized.jpg">
-      Ceres
-    </div>
-
-    <div class="card clickable" onclick="showDetails('Eris','Farther than Pluto, very cold dwarf planet.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/5/5b/Eris_and_dysnomia.jpg">
-      Eris
-    </div>
-  </div>
-
-  <!-- ⭐ SOLAR SYSTEM FACTS -->
-  <h2>Fun Solar System Facts</h2>
-  <div class="facts-list">
-    <div class="card">
-      <ul>
-        <li>Jupiter is so big all planets could fit inside it.</li>
-        <li>Venus rotates in the opposite direction of Earth.</li>
-        <li>Mars has the tallest volcano: Olympus Mons.</li>
-        <li>Saturn can float on water due to low density.</li>
-        <li>Neptune has the fastest winds in the solar system.</li>
-        <li>The Sun contains 99.8% of all solar system mass.</li>
-      </ul>
-    </div>
-  </div>
-
   <script>
     function showDetails(name, info) {
-      const box = document.getElementById("details");
-      box.style.display = "block";
-      box.innerHTML = `<h2>${name}</h2><p>${info}</p>`;
-      window.scrollTo({ top: box.offsetTop, behavior: "smooth" });
+      const details = document.getElementById('details');
+      details.style.display = 'block';
+      details.innerHTML = `<h2>${name}</h2><p>${info}</p>`;
     }
   </script>
 
