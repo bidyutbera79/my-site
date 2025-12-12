@@ -1,242 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Solar System Explorer - Class VI</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: black;
-      color: white;
-      overflow-x: hidden;
-      position: relative;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar System Explorer</title>
+<style>
+body {
+  margin:0; padding:0; background:black; color:white; font-family:Arial,sans-serif; overflow-x:hidden;
+}
+/* STAR BACKGROUND */
+body::before {
+  content:""; position:fixed; top:0; left:0; width:100%; height:100%;
+  background:url('https://i.imgur.com/9aK0r2B.png') repeat; opacity:0.3; z-index:-1;
+}
 
-    /* ⭐ STAR BACKGROUND */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: url("https://i.imgur.com/9aK0r2B.png") repeat;
-      background-size: cover;
-      opacity: 0.4;
-      z-index: -1;
-      animation: moveStars 60s linear infinite;
-    }
+/* Header */
+h1,h3 {text-align:center; color:#66ccff;}
 
-    @keyframes moveStars {
-      from { background-position: 0 0; }
-      to { background-position: -2000px 2000px; }
-    }
+/* Planet Grid */
+.planet-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(100px,1fr)); gap:10px; margin:20px; text-align:center;}
+.planet img { width:70px; height:70px; display:block; margin:0 auto; }
+.planet { cursor:pointer; background:rgba(255,255,255,0.1); padding:10px; border-radius:10px; transition:0.2s;}
+.planet:hover { transform:scale(1.1); background:rgba(255,255,255,0.2);}
 
-    h1, h3 { text-align: center; color: #66ccff; }
+/* Details Box */
+#details { margin:20px; padding:15px; background:rgba(255,255,255,0.1); display:none; border-radius:10px;}
 
-    /* PLANETS AND DWARFS */
-    .planet-list, .dwarf-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 20px;
-      margin-top: 30px;
-    }
+/* Moon Orbit */
+.orbit-container { position:relative; width:300px; height:300px; margin:30px auto;}
+.earth-center { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);}
+.earth-center img { width:80px; height:80px; border-radius:50%;}
 
-    .planet, .dwarf {
-      background: rgba(255,255,255,0.1);
-      padding: 15px;
-      border-radius: 12px;
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.3s;
-      backdrop-filter: blur(3px);
-    }
+/* Orbit animation */
+.moon-orbit, .sat-orbit { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); border-radius:50%;}
+.moon-orbit { width:150px; height:150px; animation:moonOrbit 10s linear infinite;}
+.moon-orbit img { position:absolute; top:0; left:50%; width:30px; height:30px; transform:translateX(-50%);}
+.sat-orbit { width:200px; height:200px; animation:satOrbit 6s linear infinite;}
+.sat-orbit img { position:absolute; top:0; left:50%; width:20px; height:20px; transform:translateX(-50%);}
+@keyframes moonOrbit { from{transform:translate(-50%,-50%) rotate(0deg);} to{transform:translate(-50%,-50%) rotate(360deg);} }
+@keyframes satOrbit { from{transform:translate(-50%,-50%) rotate(0deg);} to{transform:translate(-50%,-50%) rotate(360deg);} }
 
-    .planet:hover, .dwarf:hover {
-      transform: scale(1.05);
-      background: rgba(255,255,255,0.2);
-    }
-
-    .planet img, .dwarf img {
-      display: block;
-      margin: 0 auto 5px;
-    }
-
-    .planet img { width: 70px; height: 70px; animation: revolve 6s linear infinite; }
-    .dwarf img { width: 50px; height: 50px; }
-
-    @keyframes revolve { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-    #details {
-      margin-top: 30px;
-      padding: 20px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 12px;
-      display: none;
-      backdrop-filter: blur(4px);
-    }
-
-    h2 { color: #99ddff; }
-
-    /* ROCKET ANIMATIONS */
-    .rocket-container {
-      position: fixed; bottom: 20px; left: -150px; z-index: 10;
-    }
-
-    .rocket { width: 120px; animation: flyRocket 12s linear infinite; filter: drop-shadow(0 0 10px white); }
-
-    @keyframes flyRocket {
-      0% { transform: translateX(0) translateY(0) rotate(10deg); }
-      25% { transform: translateX(40vw) translateY(-10vh) rotate(5deg); }
-      50% { transform: translateX(80vw) translateY(-20vh) rotate(-5deg); }
-      75% { transform: translateX(120vw) translateY(-30vh) rotate(-10deg); }
-      100% { transform: translateX(160vw) translateY(-40vh) rotate(-20deg); }
-    }
-
-    .launchpad {
-      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-      text-align: center; z-index: 20;
-    }
-
-    .rocket-launch { width: 130px; cursor: pointer; position: relative; z-index: 30; }
-    .flame { width: 20px; height: 40px; background: orange; position: relative;
-      top: -10px; left: 55px; border-radius: 50% 50% 70% 70%; display: none;
-      animation: flameFlicker 0.2s infinite alternate; filter: blur(2px); z-index: 10; }
-
-    @keyframes flameFlicker { from { transform: scaleY(1); opacity: 0.9; } to { transform: scaleY(0.6); opacity: 0.5; } }
-    @keyframes rocketTakeOff { from { bottom: 0; } to { bottom: 120vh; } }
-
-    /* MOON + SATELLITE ORBIT */
-    .orbit-container { position: relative; width: 300px; height: 300px; margin: 30px auto; }
-    .earth-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
-    .earth-center img { width: 80px; height: 80px; }
-
-    .moon-orbit, .sat-orbit {
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-    }
-
-    .moon-orbit { width: 150px; height: 150px; animation: orbitMoon 10s linear infinite; }
-    .moon-orbit img { position: absolute; top: 0; left: 50%; width: 30px; height: 30px; transform: translateX(-50%); }
-
-    .sat-orbit { width: 200px; height: 200px; animation: orbitSatellite 6s linear infinite; }
-    .sat-orbit img { position: absolute; top: 0; left: 50%; width: 20px; height: 20px; transform: translateX(-50%); }
-
-    @keyframes orbitMoon { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
-    @keyframes orbitSatellite { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
-
-    audio { display: none; }
-  </style>
+</style>
 </head>
-
 <body>
 
-  <!-- 🎵 Background Music -->
-  <audio autoplay loop muted>
-    <source src="https://www.fesliyanstudios.com/play-mp3/387" type="audio/mp3">
-  </audio>
+<h1>Solar System Explorer</h1>
+<h3>Class VI Project</h3>
 
-  <!-- 🚀 Flying Rocket -->
-  <div class="rocket-container">
-    <img src="https://i.imgur.com/8b3dB6o.png" class="rocket">
+<div class="planet-list">
+  <div class="planet" onclick="showDetails('Earth','Our home planet.')">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg">Earth
   </div>
-
-  <!-- 🚀 Click & Launch Rocket -->
-  <div class="launchpad">
-    <img src="https://i.imgur.com/8b3dB6o.png" id="rocketLaunch" class="rocket-launch">
-    <div class="flame" id="rocketFlame"></div>
+  <div class="planet" onclick="showDetails('Mars','Red planet.')">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg">Mars
   </div>
+</div>
 
-  <h1>Solar System Explorer</h1>
-  <h3>(Class VI School Project)</h3>
-
-  <h2>Planets</h2>
-  <div class="planet-list">
-    <div class="planet" onclick="showDetails('Mercury','Smallest planet, closest to the Sun.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg"><br>Mercury
-    </div>
-    <div class="planet" onclick="showDetails('Venus','Hottest planet with thick clouds.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Venus-real_color.jpg"><br>Venus
-    </div>
-    <div class="planet" onclick="showDetails('Earth','Our home planet with life.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg"><br>Earth
-    </div>
-    <div class="planet" onclick="showDetails('Mars','The red planet.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg"><br>Mars
-    </div>
-    <div class="planet" onclick="showDetails('Jupiter','Largest planet with a giant storm.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Jupiter.jpg"><br>Jupiter
-    </div>
-    <div class="planet" onclick="showDetails('Saturn','Famous for its rings.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg"><br>Saturn
-    </div>
-    <div class="planet" onclick="showDetails('Uranus','An icy planet that rotates on its side.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Uranus2.jpg"><br>Uranus
-    </div>
-    <div class="planet" onclick="showDetails('Neptune','Very windy and farthest planet.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/5/56/Neptune_Full.jpg"><br>Neptune
-    </div>
+<h2>Moon & Satellite</h2>
+<div class="orbit-container">
+  <div class="earth-center">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg">
   </div>
-
-  <h2>Dwarf Planets</h2>
-  <div class="dwarf-list">
-    <div class="dwarf" onclick="showDetails('Pluto','A famous dwarf planet.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Pluto_by_New_Horizons_2.jpg"><br>Pluto
-    </div>
-    <div class="dwarf" onclick="showDetails('Eris','One of the largest dwarf planets.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Eris_and_Dysnomia_crop.jpg"><br>Eris
-    </div>
-    <div class="dwarf" onclick="showDetails('Haumea','Has an oval shape.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Haumea_-_artistic_rendering.jpg"><br>Haumea
-    </div>
-    <div class="dwarf" onclick="showDetails('Makemake','A bright object in Kuiper Belt.')">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Makemake_artist%27s_rendering.jpg"><br>Makemake
-    </div>
+  <div class="moon-orbit">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/FullMoon2010.jpg">
   </div>
-
-  <h2>The Moon & Satellite</h2>
-  <div class="orbit-container">
-    <div class="earth-center">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg"><br>Earth
-    </div>
-
-    <div class="moon-orbit">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/FullMoon2010.jpg" class="moon">
-    </div>
-
-    <div class="sat-orbit">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Hubble_Space_Telescope_Satellite.png" class="satellite">
-    </div>
+  <div class="sat-orbit">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Hubble_Space_Telescope_Satellite.png">
   </div>
+</div>
 
-  <h2>Fun Facts</h2>
-  <div class="planet-list">
-    <div class="planet" onclick="showDetails('Fact','Sunlight takes 8 minutes to reach Earth!')">☀️ Sunlight Fact</div>
-    <div class="planet" onclick="showDetails('Fact','Jupiter can fit 1,300 Earths!')">🪐 Jupiter Fact</div>
-    <div class="planet" onclick="showDetails('Fact','Mars has the tallest volcano!')">🔥 Mars Fact</div>
-    <div class="planet" onclick="showDetails('Fact','Neptune has extreme winds!')">💨 Neptune Fact</div>
-  </div>
+<div id="details"></div>
 
-  <div id="details"></div>
-
-  <script>
-    function showDetails(name, info) {
-      const details = document.getElementById("details");
-      details.style.display = "block";
-      details.innerHTML = `<h2>${name}</h2><p>${info}</p>`;
-    }
-
-    const rocket = document.getElementById("rocketLaunch");
-    const flame = document.getElementById("rocketFlame");
-
-    rocket.addEventListener("click", () => {
-      flame.style.display = "block";
-      rocket.style.animation = "rocketTakeOff 4s linear forwards";
-      setTimeout(() => { flame.style.display = "none"; }, 3500);
-    });
-  </script>
+<script>
+function showDetails(name,info){
+  const d=document.getElementById('details');
+  d.style.display='block';
+  d.innerHTML='<h2>'+name+'</h2><p>'+info+'</p>';
+}
+</script>
 
 </body>
 </html>
