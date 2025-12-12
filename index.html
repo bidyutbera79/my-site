@@ -1,143 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta-name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plant Identifier App - Class VI</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: #e6f2ff;
-      color: #004d00;
-    }
-    h1, h2 { text-align: center; }
-    .plant-list, .leaf-passport {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 20px;
-      margin-top: 30px;
-    }
-    .plant-card, .leaf-card {
-      background: #cce6cc;
-      border-radius: 12px;
-      padding: 15px;
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.2s, background 0.3s;
-    }
-    .plant-card:hover, .leaf-card:hover {
-      transform: scale(1.05);
-      background: #b3d9b3;
-    }
-    .plant-card img, .leaf-card img {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 5px;
-    }
-    #details {
-      margin-top: 30px;
-      padding: 20px;
-      background: #d9f2d9;
-      border-radius: 12px;
-      display: none;
-    }
-    button {
-      display: block;
-      margin: 20px auto;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      background-color: #009933;
-      color: white;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    button:hover { background-color: #007a29; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arati Nursery – Greenery for Every Home</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>Plant Identifier App</h1>
-<h2>(Class VI Project)</h2>
+<header>
+    <h1>🌱 Arati Nursery</h1>
+    <p>Greenery for Every Home</p>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="indoor.html">Indoor Plants</a>
+        <a href="outdoor.html">Outdoor Plants</a>
+        <a href="https://wa.me/919874515422">WhatsApp Us</a>
+    </nav>
+</header>
 
-<div class="plant-list" id="plantList"></div>
+<section class="hero">
+    <h2>Welcome to Arati Nursery</h2>
+    <p>Beautiful indoor & outdoor plants to brighten your home.</p>
+</section>
 
-<div id="details"></div>
+<section class="about">
+    <h2>About Us</h2>
+    <p>Located at Silghat, XYZ Road. We provide a wide variety of indoor and outdoor plants.
+    Delivery available across the area.</p>
+</section>
 
-<h2>Leaf Passport</h2>
-<div class="leaf-passport" id="leafPassport"></div>
+<section class="featured">
+    <h2>Featured Plants</h2>
+    
+    <div class="plant-grid">
+        <div class="card">
+            <img src="images/areca.jpg" alt="Areca Palm">
+            <h3>Areca Palm</h3>
+        </div>
 
-<script>
-  // WORKING IMAGE URLs
-  const plants = [
-    {
-      name: "Rose",
-      habitat: "Garden/Indoor",
-      leaf: "Compound leaves",
-      img: "https://upload.wikimedia.org/wikipedia/commons/b/bf/Red_rose.jpg"
-    },
-    {
-      name: "Mango",
-      habitat: "Tropical regions",
-      leaf: "Simple leaves",
-      img: "https://upload.wikimedia.org/wikipedia/commons/7/7d/Mango_fruit.jpg"
-    },
-    {
-      name: "Sunflower",
-      habitat: "Fields",
-      leaf: "Simple broad leaves",
-      img: "https://upload.wikimedia.org/wikipedia/commons/4/40/Sunflower_sky_backdrop.jpg"
-    },
-    {
-      name: "Tulip",
-      habitat: "Garden",
-      leaf: "Long narrow leaves",
-      img: "https://upload.wikimedia.org/wikipedia/commons/1/12/Red_tulip_flower.jpg"
-    }
-  ];
+        <div class="card">
+            <img src="images/moneyplant.jpg" alt="Money Plant">
+            <h3>Money Plant</h3>
+        </div>
 
-  const plantListDiv = document.getElementById("plantList");
-  const detailsDiv = document.getElementById("details");
-  const leafPassportDiv = document.getElementById("leafPassport");
+        <div class="card">
+            <img src="images/rose.jpg" alt="Rose Plant">
+            <h3>Rose Plant</h3>
+        </div>
+    </div>
+</section>
 
-  // Load plants into list
-  plants.forEach((plant, index) => {
-    const card = document.createElement("div");
-    card.className = "plant-card";
-    card.innerHTML = `<img src="${plant.img}" alt="${plant.name}"><br>${plant.name}`;
-    card.onclick = () => showDetails(index);
-    plantListDiv.appendChild(card);
-  });
+<footer>
+    <p>© 2025 Arati Nursery | Silghat | Mobile: 9874515422</p>
+</footer>
 
-  // Show plant details
-  function showDetails(index) {
-    const plant = plants[index];
-    detailsDiv.style.display = "block";
-    detailsDiv.innerHTML = `
-      <h2>${plant.name}</h2>
-      <p><strong>Habitat:</strong> ${plant.habitat}</p>
-      <p><strong>Leaf Type:</strong> ${plant.leaf}</p>
-      <button onclick="addToPassport(${index})">Add to Leaf Passport</button>
-    `;
-  }
-
-  // Add plant to Leaf Passport
-  function addToPassport(index) {
-    const plant = plants[index];
-    const card = document.createElement("div");
-    card.className = "leaf-card";
-    card.innerHTML = `
-      <img src="${plant.img}" alt="${plant.name}">
-      <br>${plant.name}<br>${plant.leaf}
-    `;
-    leafPassportDiv.appendChild(card);
-    alert(`${plant.name} added to Leaf Passport!`);
-  }
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
