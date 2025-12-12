@@ -36,10 +36,7 @@
       to { background-position: -2000px 2000px; }
     }
 
-    h1, h3 {
-      text-align: center;
-      color: #66ccff;
-    }
+    h1, h3 { text-align: center; color: #66ccff; }
 
     /* PLANET CARDS */
     .planet-list, .dwarf-list {
@@ -68,6 +65,11 @@
       width: 70px;
       height: 70px;
       animation: revolve 6s linear infinite;
+    }
+
+    .dwarf img {
+      width: 60px;
+      height: 60px;
     }
 
     @keyframes revolve {
@@ -147,6 +149,56 @@
       to { bottom: 120vh; }
     }
 
+    /* MOON ORBIT */
+    .moon-orbit {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: orbitMoon 10s linear infinite;
+    }
+
+    .moon-orbit .moon {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 30px;
+      height: 30px;
+      transform: translateX(-50%);
+    }
+
+    @keyframes orbitMoon {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    /* SATELLITE ORBIT */
+    .sat-orbit {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: orbitSatellite 6s linear infinite;
+    }
+
+    .sat-orbit .satellite {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      transform: translateX(-50%);
+    }
+
+    @keyframes orbitSatellite {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
     audio { display: none; }
   </style>
 </head>
@@ -209,23 +261,22 @@
   </div>
 
   <h2>The Moon & Satellite</h2>
-<div class="planet-list" style="position: relative; width: 300px; height: 300px; margin: auto;">
-  <!-- Earth -->
-  <div class="planet" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-    <img src="https://i.imgur.com/Yg1rK7e.png" style="width: 80px; height: 80px; animation: revolve 6s linear infinite;"><br>Earth
-  </div>
+  <div class="planet-list" style="position: relative; width: 300px; height: 300px; margin: auto;">
+    <!-- Earth in center -->
+    <div class="planet" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+      <img src="https://i.imgur.com/Yg1rK7e.png" style="width: 80px; height: 80px; animation: revolve 6s linear infinite;"><br>Earth
+    </div>
 
-  <!-- Moon orbiting Earth -->
-  <div class="moon-orbit">
-    <img src="https://i.imgur.com/0eRLaqE.png" class="moon" alt="Moon">
-  </div>
+    <!-- Moon orbit -->
+    <div class="moon-orbit">
+      <img src="https://i.imgur.com/0eRLaqE.png" class="moon" alt="Moon">
+    </div>
 
-  <!-- Satellite rotating -->
-  <div class="sat-orbit">
-    <img src="https://i.imgur.com/0LxE6V8.png" class="satellite" alt="Satellite">
+    <!-- Satellite orbit -->
+    <div class="sat-orbit">
+      <img src="https://i.imgur.com/0LxE6V8.png" class="satellite" alt="Satellite">
+    </div>
   </div>
-</div>
-
 
   <h2>Fun Facts</h2>
   <div class="planet-list">
@@ -237,7 +288,6 @@
 
   <div id="details"></div>
 
-  <!-- JS -->
   <script>
     function showDetails(name, info) {
       const details = document.getElementById("details");
@@ -252,9 +302,7 @@
     rocket.addEventListener("click", () => {
       flame.style.display = "block";
       rocket.style.animation = "rocketTakeOff 4s linear forwards";
-      setTimeout(() => {
-        flame.style.display = "none";
-      }, 3500);
+      setTimeout(() => { flame.style.display = "none"; }, 3500);
     });
   </script>
 
